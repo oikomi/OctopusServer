@@ -2,10 +2,20 @@ package app
 
 import "github.com/urfave/cli"
 
-func NewGateWayCommands() []cli.Command{
-	return []cli.Command{
-		startCommand,
+type Command struct {
+	commandlines []cli.Command
+}
+
+func NewCommand() *Command {
+	return &Command{
+		commandlines: []cli.Command{
+			startCommand,
+		},
 	}
+}
+
+func (c *Command) Commandlines() []cli.Command {
+	return c.commandlines
 }
 
 var startCommand = cli.Command{

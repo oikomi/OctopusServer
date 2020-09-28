@@ -23,7 +23,7 @@ func main() {
 			Usage: "enable debug output in the logs",
 		},
 	}
-	gateway.Commands = app.NewGateWayCommands()
+	gateway.Commands = app.NewCommand().Commandlines()
 
 	gateway.Before = func(clix *cli.Context) error {
 		if clix.GlobalBool("debug") {
