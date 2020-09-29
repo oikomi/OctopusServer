@@ -45,6 +45,11 @@ func main() {
 	}
 
 	gateway.Before = func(clix *cli.Context) error {
+		logrus.SetReportCaller(true)
+		logrus.SetFormatter(&logrus.TextFormatter{
+			DisableColors: true,
+			FullTimestamp: true,
+		})
 		if clix.Bool("debug") {
 			logrus.SetLevel(logrus.DebugLevel)
 		}
@@ -52,7 +57,7 @@ func main() {
 		confLoadFunc := altsrc.InitInputSourceWithContext(flags, altsrc.NewYamlSourceFromFlagFunc("conf_file"))
 		err := confLoadFunc(clix)
 		if err != nil {
-			logrus.Error(err)
+			logrus.WithError(err).Errorf("[gateway] failed to load conf file %s", clix.String("conf_file"))
 			panic(err)
 		}
 		return nil
