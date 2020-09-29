@@ -34,10 +34,14 @@ DESTDIR ?= ./deploy
 
 GO_BUILD_FLAGS=
 
-all: clean gateway
+all: clean conf gateway
+
+conf:
+	@mkdir -p $(DESTDIR)/config
+	@mkdir -p $(DESTDIR)/bin
+	@cp config/*.yaml $(DESTDIR)/config
 
 gateway:
-	@mkdir -p $(DESTDIR)/bin
 	@go build ${GO_BUILD_FLAGS} -o $(DESTDIR)/bin/gateway  ./server/cmd/gateway
 
 #install: ## install binaries
@@ -51,16 +55,16 @@ gateway:
 
 # Run tests
 test: fmt vet
-	go test ./... -coverprofile cover.out
+	@go test ./... -coverprofile cover.out
 
 # Run go fmt against code
 fmt:
-	go fmt ./...
+	@go fmt ./...
 
 # Run go vet against code
 vet:
-	go vet ./...
+	@go vet ./...
 
 clean:
-	rm -rf deploy
-	rm -rf cover.out
+	@rm -rf deploy
+	@rm -rf cover.out

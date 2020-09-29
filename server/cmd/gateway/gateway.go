@@ -11,29 +11,31 @@ import (
 	"time"
 )
 
-const GateWayServerConfFile = "./gateway.yaml"
-
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	flags := []cli.Flag{
-		&cli.BoolFlag{
-			Name:    "debug, d",
+		&cli.StringFlag{
+			Name:    "conf_file",
+			Aliases: []string{"c"},
+			Usage:   "gateway conf file",
+			EnvVars: []string{"GATEWAY_CONF_FILE"},
+		},
+		altsrc.NewBoolFlag(&cli.BoolFlag{
+			Name:    "debug",
+			Aliases: []string{"d"},
 			Usage:   "enable debug output in the logs",
 			EnvVars: []string{"ENABLE_DEBUG"},
-			FilePath: "GATE_WAY_SERVER_CONF_FILE",
-		},
+		}),
 	}
 
 	gateway := cli.App{
 		Name:        "gateway",
-		HelpName:    "gateway",
 		Version:     "1",
 		Description: "gateway server",
-		Flags: flags,
-		Before: altsrc.InitInputSourceWithContext(flags, altsrc.NewYamlSourceFromFlagFunc(GateWayServerConfFile)),
+		Flags:       flags,
 		Authors: []*cli.Author{
-			&cli.Author{
+			{
 				Name:  "harold.miao",
 				Email: "miaohong@miaohong.org",
 			},
@@ -46,6 +48,19 @@ func main() {
 		if clix.Bool("debug") {
 			logrus.SetLevel(logrus.DebugLevel)
 		}
+		logrus.Info("load conf file")
+		confLoadFunc := altsrc.InitInputSourceWithContext(flags, altsrc.NewYamlSourceFromFlagFunc("conf_file"))
+		err := confLoadFunc(clix)
+		if err != nil {
+			logrus.Error(err)
+			panic(err)
+		}
+		return nil
+	}
+
+	gateway.Action = func(ctx *cli.Context) error {
+		debug := ctx.Bool("debug")
+		fmt.Printf("debug is %v\n", debug)
 		return nil
 	}
 
