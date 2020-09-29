@@ -6,13 +6,11 @@ import (
 )
 
 func TestCommand(t *testing.T) {
-
 	cmd := NewCommand()
 	assert.NotNil(t, cmd)
-	for _,cl  := range cmd.commandlines {
+	for _, cl := range cmd.Commandlines() {
 		if cl.Name == "start" {
 			assert.Equal(t, "start a new gateway server", cl.Usage, "expected %s, got %s", "start a new gateway server", cl.Usage)
 		}
 	}
-
 }
