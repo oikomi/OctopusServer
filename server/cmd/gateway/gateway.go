@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github/oikomi/OctopusServer/server/cmd/gateway/app"
+	"github.com/oikomi/OctopusServer/server/cmd/gateway/app"
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
