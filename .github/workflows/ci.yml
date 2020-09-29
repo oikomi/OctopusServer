@@ -10,7 +10,13 @@ jobs:
 
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+
+    strategy:
+      matrix:
+        os: [ ubuntu-18.04, macos-10.15 ] # TODO: pass linters on 'windows-2019'
+
     steps:
 
     - name: Set up Go 
@@ -30,6 +36,8 @@ jobs:
 
     - name: Build
       run: make all
+      working-directory: src/github.com/oikomi/OctopusServer
 
     - name: Test
       run: make test
+      working-directory: src/github.com/oikomi/OctopusServer
