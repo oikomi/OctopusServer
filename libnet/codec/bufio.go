@@ -1,8 +1,8 @@
 package codec
 
 import (
-	"github.com/oikomi/OctopusServer/libnet"
 	"bufio"
+	"github.com/oikomi/OctopusServer/libnet"
 	"io"
 )
 

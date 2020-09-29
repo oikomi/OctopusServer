@@ -1,8 +1,8 @@
 package codec
 
 import (
-	"github.com/oikomi/OctopusServer/libnet"
 	"bytes"
+	"github.com/oikomi/OctopusServer/libnet"
 	"testing"
 )
 

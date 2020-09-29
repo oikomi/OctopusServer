@@ -1,10 +1,10 @@
 package codec
 
 import (
-	"github.com/oikomi/OctopusServer/libnet"
 	"bytes"
 	"encoding/binary"
 	"errors"
+	"github.com/oikomi/OctopusServer/libnet"
 	"io"
 	"math"
 )

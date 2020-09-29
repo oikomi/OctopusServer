@@ -1,32 +1,49 @@
 package main
 
 import (
-	"github.com/oikomi/OctopusServer/server/cmd/gateway/app"
 	"fmt"
+	"github.com/oikomi/OctopusServer/server/cmd/gateway/app"
 	"github.com/sirupsen/logrus"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v2/altsrc"
 	"math/rand"
 	"os"
 	"time"
 )
 
+const GATE_WAY_SERVER_CONF_FILE = "./gateway.yaml"
+
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
-	gateway := cli.NewApp()
-	gateway.Name = "gateway"
-	gateway.Version = "1"
-	gateway.Usage = "gateway server"
-	gateway.Flags = []cli.Flag{
-		cli.BoolFlag{
-			Name:  "debug",
-			Usage: "enable debug output in the logs",
+	flags := []cli.Flag{
+		&cli.BoolFlag{
+			Name:    "debug, d",
+			Usage:   "enable debug output in the logs",
+			EnvVars: []string{"ENABLE_DEBUG"},
+			FilePath: "GATE_WAY_SERVER_CONF_FILE",
 		},
 	}
-	gateway.Commands = app.NewCommand().Commandlines()
+
+	gateway := cli.App{
+		Name:        "gateway",
+		HelpName:    "gateway",
+		Version:     "1",
+		Description: "gateway server",
+		Flags: flags,
+		Before: altsrc.InitInputSourceWithContext(flags, altsrc.NewYamlSourceFromFlagFunc(GATE_WAY_SERVER_CONF_FILE)),
+		Authors: []*cli.Author{
+			&cli.Author{
+				Name:  "harold.miao",
+				Email: "miaohong@miaohong.org",
+			},
+		},
+		Copyright: "",
+		Commands:  app.NewCommand().Commandlines(),
+	}
 
 	gateway.Before = func(clix *cli.Context) error {
-		if clix.GlobalBool("debug") {
+		if clix.Bool("debug") {
 			logrus.SetLevel(logrus.DebugLevel)
 		}
 		return nil
