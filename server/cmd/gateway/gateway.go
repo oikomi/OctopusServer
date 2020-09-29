@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const GATE_WAY_SERVER_CONF_FILE = "./gateway.yaml"
+const GateWayServerConfFile = "./gateway.yaml"
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
@@ -31,7 +31,7 @@ func main() {
 		Version:     "1",
 		Description: "gateway server",
 		Flags: flags,
-		Before: altsrc.InitInputSourceWithContext(flags, altsrc.NewYamlSourceFromFlagFunc(GATE_WAY_SERVER_CONF_FILE)),
+		Before: altsrc.InitInputSourceWithContext(flags, altsrc.NewYamlSourceFromFlagFunc(GateWayServerConfFile)),
 		Authors: []*cli.Author{
 			&cli.Author{
 				Name:  "harold.miao",
