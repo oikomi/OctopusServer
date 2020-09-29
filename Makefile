@@ -30,7 +30,7 @@ endif
 #Replaces ":" (*nix), ";" (windows) with newline for easy parsing
 GOPATHS=$(shell echo ${GOPATH} | tr ":" "\n" | tr ";" "\n")
 
-DESTDIR ?= ${GOPATHS}/src/github.com/oikomi/OctopusServer/deploy
+DESTDIR ?= ./deploy
 
 GO_BUILD_FLAGS=
 
