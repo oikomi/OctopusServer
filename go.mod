@@ -1,4 +1,4 @@
-module OctopusServer
+module github/oikomi/OctopusServer
 
 go 1.15
 

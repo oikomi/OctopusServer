@@ -18,3 +18,4 @@ vet:
 
 clean:
 	rm -rf server/cmd/gateway/gateway
+	rm -rf cover.out

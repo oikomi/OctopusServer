@@ -1,8 +1,8 @@
 package codec
 
 import (
-	"OctopusServer/libnet"
 	"encoding/json"
+	"github.com/oikomi/OctopusServer/libnet"
 	"io"
 	"reflect"
 )
